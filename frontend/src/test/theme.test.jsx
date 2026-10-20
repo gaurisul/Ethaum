@@ -129,28 +129,27 @@ describe('ThemeContext and ThemeToggle', () => {
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
   });
 
-  it('ThemeToggle renders accessible options with aria-checked', () => {
+  it('ThemeToggle renders accessible single cycle button stating current mode', () => {
     render(
       <ThemeProvider>
         <ThemeToggle />
       </ThemeProvider>
     );
 
-    const lightBtn = screen.getByRole('radio', { name: /switch to light mode/i });
-    const darkBtn = screen.getByRole('radio', { name: /switch to dark mode/i });
-    const systemBtn = screen.getByRole('radio', { name: /use system theme preference/i });
+    // Initial is system
+    const toggleBtn = screen.getByRole('button', { name: /current theme: system/i });
+    expect(toggleBtn).toBeInTheDocument();
 
-    expect(lightBtn).toBeInTheDocument();
-    expect(darkBtn).toBeInTheDocument();
-    expect(systemBtn).toBeInTheDocument();
+    // Click cycles to light
+    fireEvent.click(toggleBtn);
+    expect(screen.getByRole('button', { name: /current theme: light/i })).toBeInTheDocument();
 
-    // Default is system
-    expect(systemBtn).toHaveAttribute('aria-checked', 'true');
-    expect(lightBtn).toHaveAttribute('aria-checked', 'false');
+    // Click cycles to dark
+    fireEvent.click(toggleBtn);
+    expect(screen.getByRole('button', { name: /current theme: dark/i })).toBeInTheDocument();
 
-    // Click dark
-    fireEvent.click(darkBtn);
-    expect(darkBtn).toHaveAttribute('aria-checked', 'true');
-    expect(systemBtn).toHaveAttribute('aria-checked', 'false');
+    // Click cycles back to system
+    fireEvent.click(toggleBtn);
+    expect(screen.getByRole('button', { name: /current theme: system/i })).toBeInTheDocument();
   });
 });

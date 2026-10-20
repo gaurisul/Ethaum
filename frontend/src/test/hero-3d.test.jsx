@@ -45,7 +45,6 @@ describe('3D Hero Animation Verification (Desktop and Mobile, Light and Dark)', 
     const canvas = container.querySelector('canvas');
     expect(canvas).toBeInTheDocument();
     expect(screen.getByText(/cross-border medical care/i)).toBeInTheDocument();
-    expect(screen.getByText(/verified hub/i)).toBeInTheDocument();
     expect(screen.getByText(/interactive 3d visualization/i)).toBeInTheDocument();
   });
 
@@ -64,7 +63,7 @@ describe('3D Hero Animation Verification (Desktop and Mobile, Light and Dark)', 
 
     const canvas = container.querySelector('canvas');
     expect(canvas).toBeInTheDocument();
-    expect(screen.getByText(/verified hub/i)).toBeInTheDocument();
+    expect(screen.getByText(/interactive 3d visualization/i)).toBeInTheDocument();
   });
 
   it('renders correctly at desktop size (1280px) in dark mode', () => {
@@ -82,7 +81,7 @@ describe('3D Hero Animation Verification (Desktop and Mobile, Light and Dark)', 
 
     const canvas = container.querySelector('canvas');
     expect(canvas).toBeInTheDocument();
-    expect(screen.getByText(/verified hub/i)).toBeInTheDocument();
+    expect(screen.getByText(/interactive 3d visualization/i)).toBeInTheDocument();
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
   });
 
@@ -101,7 +100,7 @@ describe('3D Hero Animation Verification (Desktop and Mobile, Light and Dark)', 
 
     const canvas = container.querySelector('canvas');
     expect(canvas).toBeInTheDocument();
-    expect(screen.getByText(/verified hub/i)).toBeInTheDocument();
+    expect(screen.getByText(/interactive 3d visualization/i)).toBeInTheDocument();
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
   });
 

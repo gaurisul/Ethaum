@@ -4,61 +4,62 @@
 
 :root,
 [data-theme="light"] {
-  /* Canvas & Surfaces: Warm Off-White / Natural Editorial Palette */
-  --color-bg-canvas: #FAF9F5;
-  --color-bg-surface: #FFFFFF;
-  --color-bg-subtle: #F2EFE9;
-  --color-bg-muted: #E6E2D8;
+  /* Canvas & Surfaces: Pristine, High-Clarity Clinical Neutral Palette */
+  --color-bg-canvas: #F8FAFC;           /* Pristine, calm clinical canvas (#F8FAFC) */
+  --color-bg-surface: #FFFFFF;          /* Pure white for medical cards, inputs, and dialogs */
+  --color-bg-subtle: #F1F5F9;           /* Soothing cool-slate wash for alternating modules */
+  --color-bg-muted: #E2E8F0;            /* Precise neutral for pills, tags, and quiet dividers */
   --color-bg-elevated: #FFFFFF;
 
-  /* Typography Colors */
-  --color-text-primary: #15221C;        /* Deep forest-charcoal */
-  --color-text-secondary: #3D4C45;      /* Legible muted charcoal */
-  --color-text-muted: #485A52;          /* Helper text / captions (>4.5:1 contrast) */
-  --color-text-inverse: #FAF9F5;
+  /* Typography Colors: Deep Oxford Slate (Maximum legibility, clinical authority) */
+  --color-text-primary: #0F172A;        /* Deep slate-black (>15.5:1 contrast on canvas) */
+  --color-text-secondary: #334155;      /* Calm, authoritative slate charcoal (>8.4:1 contrast) */
+  --color-text-muted: #64748B;          /* High-legibility captions & helper text (>4.6:1 WCAG AA) */
+  --color-text-inverse: #FFFFFF;
 
-  /* Structural Borders */
-  --color-border-subtle: #E6E1D6;
-  --color-border-medium: #C7C0B1;
-  --color-border-strong: #8F8776;
+  /* Structural Borders: Clean, Precise Clinical Hairlines */
+  --color-border-subtle: #E2E8F0;       /* Hairline divider */
+  --color-border-medium: #CBD5E1;       /* Container & input outlines */
+  --color-border-strong: #94A3B8;       /* Confident active and hover borders */
 
-  /* Primary Brand: Deep Forest Teal */
-  --color-brand-primary: #124C3E;
-  --color-brand-primary-hover: #0B352B;
+  /* Primary Brand: Deep Surgical Emerald & Teal */
+  --color-brand-primary: #0F5132;       /* Deep surgical emerald for primary actions */
+  --color-brand-primary-hover: #0B3D26; /* Darker emerald hover */
   --color-brand-primary-text: #FFFFFF;
 
-  /* Accent: Muted Editorial Teal */
-  --color-brand-accent: #196D5D;
-  --color-brand-accent-hover: #125447;
-  --color-brand-accent-subtle: #EAF4F1;
-  --color-brand-accent-border: #B6DBD1;
-  --color-brand-accent-text: #0E3E33;
+  /* Accent: Refined Surgical Teal */
+  --color-brand-accent: #0D9488;        /* Calming, clinical teal for links, status icons, and focus */
+  --color-brand-accent-hover: #0F766E;  /* Deep teal hover */
+  --color-brand-accent-subtle: #CCFBF1; /* Fresh mint/teal wash */
+  --color-brand-accent-border: #99F6E4; /* Clean mint/teal border */
+  --color-brand-accent-text: #0F766E;   /* Accessible dark teal text */
 
-  /* Focus Indicator */
-  --color-focus-ring: rgba(25, 109, 93, 0.28);
+  /* Focus Indicator: ring-emerald-500/20 */
+  --color-focus-ring: rgba(13, 148, 136, 0.2);
 
   /* Status Colors */
-  --color-status-success: #166534;
+  --color-status-success: #15803D;
   --color-status-success-bg: #F0FDF4;
   --color-status-success-border: #BBF7D0;
 
-  --color-status-warning: #9A3412;
-  --color-status-warning-bg: #FFF7ED;
-  --color-status-warning-border: #FED7AA;
+  --color-status-warning: #B45309;
+  --color-status-warning-bg: #FFFBEB;
+  --color-status-warning-border: #FDE68A;
 
-  --color-status-danger: #991B1B;
+  --color-status-danger: #B91C1C;
   --color-status-danger-bg: #FEF2F2;
   --color-status-danger-border: #FECACA;
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(21, 34, 28, 0.04);
-  --shadow-sm: 0 1px 3px rgba(21, 34, 28, 0.06), 0 1px 2px rgba(21, 34, 28, 0.03);
-  --shadow-md: 0 4px 10px -1px rgba(21, 34, 28, 0.06), 0 2px 4px -2px rgba(21, 34, 28, 0.03);
-  --shadow-lg: 0 10px 20px -3px rgba(21, 34, 28, 0.07), 0 4px 8px -4px rgba(21, 34, 28, 0.03);
+  /* Shadows: Cool Tinted Elevation (Subtle, never muddy) */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.03);
+  --shadow-lg: 0 12px 24px -4px rgba(15, 23, 42, 0.07), 0 4px 8px -4px rgba(15, 23, 42, 0.03);
+  --shadow-floating: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.05);
 
   /* Surface Overlays */
-  --nav-backdrop: rgba(250, 249, 245, 0.92);
-  --hero-pattern: radial-gradient(#C7C0B1 0.75px, transparent 0.75px);
+  --nav-backdrop: rgba(248, 250, 252, 0.85);
+  --hero-pattern: radial-gradient(#CBD5E1 0.75px, transparent 0.75px);
 }
 
 [data-theme="dark"] {
@@ -121,9 +122,9 @@
 
 /* Common System Typography & Spacing Scale */
 :root {
-  --font-family-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-family-serif: 'DM Serif Display', Georgia, serif;
-  --font-family-editorial: 'Newsreader', Georgia, serif;
+  --font-family-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-serif: 'Newsreader', 'DM Serif Display', Georgia, serif;
+  --font-family-editorial: 'Newsreader', 'DM Serif Display', Georgia, serif;
 
   --font-size-xs: 0.875rem;    /* 14px (meets accessible minimum text threshold) */
   --font-size-sm: 0.9375rem;   /* 15px */

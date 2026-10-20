@@ -1,363 +1,212 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  ShieldCheckIcon,
-  CheckIcon,
-  ArrowRightIcon,
-  StethoscopeIcon,
-  BuildingIcon,
-  LockIcon,
-} from '../components/common/Icons';
+import { CheckIcon, LockIcon, ArrowRightIcon, ShieldCheckIcon } from '../components/common/Icons';
 import Button from '../components/common/Button';
-import Badge from '../components/common/Badge';
-import Card, { CardBody } from '../components/common/Card';
 import HealthcareGlobe from '../components/common/HealthcareGlobe';
 import ProposalCompare from '../components/common/ProposalCompare';
 import JourneyTimeline from '../components/common/JourneyTimeline';
 import FAQSection from '../components/common/FAQSection';
-import AccreditationStrip from '../components/common/AccreditationStrip';
 import HeroIntakeTeaser from '../components/common/HeroIntakeTeaser';
 
 export function HomePage() {
   return (
     <div className="animate-fade-in">
-      {/* Editorial Hero Section with 3D Globe Visual */}
+      {/* =========================================================================
+          1. Hero Section (Balanced 60/40 Split Desktop Layout)
+          ========================================================================= */}
+      <section className="hero-section" aria-labelledby="hero-main-title">
+        <div className="container">
+          <div className="hero-grid hero-split-60-40">
+            {/* Left Column (60%): Editorial Headline, Subtext, Trust Bar */}
+            <div className="hero-left-column">
+              <div className="hero-editorial-lead-group">
+                <span className="hero-kicker-tag">
+                  Institutional Cross-Border Healthcare
+                </span>
+                <h1 id="hero-main-title" className="hero-headline">
+                  Cross-border medical care, coordinated with clinical rigor and price clarity.
+                </h1>
+                <p className="hero-subtext">
+                  EthAum coordinates international medical care with itemized hospital quotes, physician dossier reviews, and complete record privacy.
+                </p>
+              </div>
+
+              {/* Immediate Trust-Signal Badge Bar */}
+              <div className="hero-trust-badge-bar">
+                <div className="trust-badges-monochrome-cluster">
+                  <span className="trust-mono-badge" title="Joint Commission International Accredited Network">
+                    JCI ACCREDITED
+                  </span>
+                  <span className="trust-mono-badge" title="Australian Council on Healthcare Standards">
+                    ACHS STANDARDS
+                  </span>
+                  <span className="trust-mono-badge" title="International Organization for Standardization">
+                    ISO 9001 / 15189
+                  </span>
+                </div>
+
+                <div className="trust-security-lock-pill">
+                  <LockIcon size={14} style={{ color: 'var(--color-brand-accent)' }} />
+                  <span className="lock-pill-text">256-bit HIPAA-compliant encryption</span>
+                </div>
+              </div>
+
+              {/* Quick Clinical Guarantees Checklist */}
+              <div className="hero-checklist-grid">
+                <div className="hero-check-item">
+                  <span className="hero-check-icon" aria-hidden="true">
+                    <CheckIcon size={15} />
+                  </span>
+                  <div>
+                    <strong className="check-item-title">Surgeon-evaluated candidacy</strong>
+                    <span className="check-item-sub">Evaluated by hospital department heads</span>
+                  </div>
+                </div>
+
+                <div className="hero-check-item">
+                  <span className="hero-check-icon" aria-hidden="true">
+                    <CheckIcon size={15} />
+                  </span>
+                  <div>
+                    <strong className="check-item-title">Fixed itemized proposals</strong>
+                    <span className="check-item-sub">Guaranteed against surprise hospital tariffs</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column (40%): Floating Elevated Intake Card */}
+            <div className="hero-right-column">
+              <HeroIntakeTeaser />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          2. Active Clinical Corridors & 3D Interactive Visualization
+          ========================================================================= */}
       <section
-        style={{
-          paddingTop: 'var(--space-12)',
-          paddingBottom: 'var(--space-16)',
-          borderBottom: '1px solid var(--color-border-subtle)',
-          backgroundColor: 'var(--color-bg-canvas)',
-        }}
+        id="corridors"
+        className="corridors-section"
+        aria-labelledby="corridors-heading"
       >
         <div className="container">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              gap: 'var(--space-8)',
-              alignItems: 'center',
-            }}
-            className="hero-grid"
-          >
-            <div>
-              {/* Editorial Eyebrow */}
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: 'var(--space-3)' }}>
-                <Badge variant="teal">
-                  <ShieldCheckIcon size={14} />
-                  Independent healthcare coordination
-                </Badge>
-              </div>
-
-              {/* Headline with DM Serif Display */}
-              <h1
-                style={{
-                  fontSize: 'clamp(2.25rem, 4.2vw, 3.5rem)',
-                  lineHeight: 1.15,
-                  fontWeight: 400,
-                  fontFamily: 'var(--font-family-serif)',
-                  color: 'var(--color-text-primary)',
-                  marginBottom: 'var(--space-5)',
-                  letterSpacing: '-0.01em',
-                }}
-              >
-                Cross-border medical care, coordinated with clinical rigor and price clarity.
-              </h1>
-
-              {/* Subhead with Source Sans 3 */}
-              <p
-                style={{
-                  fontSize: 'var(--font-size-lg)',
-                  lineHeight: 1.62,
-                  color: 'var(--color-text-secondary)',
-                  marginBottom: 'var(--space-8)',
-                  maxWidth: '560px',
-                }}
-              >
-                EthAum provides administrative support for international patients seeking major medical procedures. We organize your clinical records, solicit itemized proposals from accredited hospitals, and coordinate logistics with complete transparency.
-              </p>
-
-              {/* Action Buttons */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'var(--space-4)',
-                  flexWrap: 'wrap',
-                  marginBottom: 'var(--space-6)',
-                }}
-              >
-                <Button as={Link} to="/signup" variant="primary" size="lg">
-                  Start coordination case
-                  <ArrowRightIcon size={16} />
-                </Button>
-                <Button as="a" href="#how-it-works" variant="outline" size="lg">
-                  How coordination works
-                </Button>
-              </div>
-
-              {/* 3-Field Intake Teaser */}
-              <HeroIntakeTeaser />
-
-              {/* Grounded Quality Commitments */}
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
-                  gap: 'var(--space-4)',
-                  paddingTop: 'var(--space-6)',
-                  borderTop: '1px solid var(--color-border-subtle)',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                  <span style={{ color: 'var(--color-brand-accent)', marginTop: '2px' }}>
-                    <CheckIcon size={15} />
-                  </span>
-                  <div>
-                    <strong style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-primary)', display: 'block', fontWeight: 600 }}>
-                      Accreditation verified
-                    </strong>
-                    <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-                      JCI, ISO, or national statutory boards
-                    </span>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                  <span style={{ color: 'var(--color-brand-accent)', marginTop: '2px' }}>
-                    <CheckIcon size={15} />
-                  </span>
-                  <div>
-                    <strong style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-primary)', display: 'block', fontWeight: 600 }}>
-                      Itemized proposals
-                    </strong>
-                    <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-                      Surgeon, anesthesia, and room breakdown
-                    </span>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                  <span style={{ color: 'var(--color-brand-accent)', marginTop: '2px' }}>
-                    <CheckIcon size={15} />
-                  </span>
-                  <div>
-                    <strong style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-primary)', display: 'block', fontWeight: 600 }}>
-                      Consent-first vault
-                    </strong>
-                    <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-                      Granular patient control over records
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Restrained 3D Globe Visual Column */}
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <HealthcareGlobe />
-            </div>
+          <div className="section-header-centered">
+            <span className="section-pre-tag">Global Clinical Network</span>
+            <h2 id="corridors-heading">
+              Verified international medical corridors.
+            </h2>
+            <p className="section-lead-desc">
+              Direct coordination channels connecting patients with accredited specialty centers in Zurich, Boston, Seoul, Singapore, London, and Dubai.
+            </p>
           </div>
+
+          <HealthcareGlobe />
         </div>
       </section>
 
-      {/* Accreditation Standards Strip */}
-      <AccreditationStrip />
-
-      {/* Quality Standards & Operating Philosophy (Two-Column Layout with Sticky Heading) */}
-      <section id="quality" style={{ padding: 'var(--space-16) 0', backgroundColor: 'var(--color-bg-surface)' }}>
-        <div className="container">
-          <div className="quality-two-column-layout">
-            {/* Sticky Editorial Heading Column */}
-            <div className="quality-sticky-column">
-              <Badge variant="teal" style={{ marginBottom: 'var(--space-3)' }}>
-                Operating standards
-              </Badge>
-              <h2>Built on clinical ethics, not algorithmic shortcuts.</h2>
-              <p style={{ marginTop: 'var(--space-4)', fontSize: 'var(--font-size-base)', color: 'var(--color-text-secondary)', lineHeight: 1.65 }}>
-                Medical decisions require licensed medical doctors. EthAum maintains strict separation between administrative coordination and clinical evaluation.
-              </p>
-              <div style={{ marginTop: 'var(--space-6)' }}>
-                <Button as="a" href="#how-it-works" variant="outline" size="sm">
-                  How coordination works
-                </Button>
-              </div>
-            </div>
-
-            {/* Vertically Stacked Clinical Principle Cards Column */}
-            <div className="quality-cards-column">
-              <Card>
-                <CardBody>
-                  <div style={{ color: 'var(--color-brand-accent)', marginBottom: 'var(--space-3)' }}>
-                    <StethoscopeIcon size={22} />
-                  </div>
-                  <h3 style={{ fontSize: 'var(--font-size-lg)', marginBottom: 'var(--space-2)' }}>
-                    Surgeon-led case evaluation
-                  </h3>
-                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0 }}>
-                    Your diagnostic materials are reviewed directly by the destination hospital’s surgical department heads. We do not use automated algorithms to determine candidacy, diagnose conditions, or prescribe therapies.
-                  </p>
-                </CardBody>
-              </Card>
-
-              <Card>
-                <CardBody>
-                  <div style={{ color: 'var(--color-brand-accent)', marginBottom: 'var(--space-3)' }}>
-                    <BuildingIcon size={22} />
-                  </div>
-                  <h3 style={{ fontSize: 'var(--font-size-lg)', marginBottom: 'var(--space-2)' }}>
-                    Accreditation verification
-                  </h3>
-                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0 }}>
-                    Hospitals must hold valid accreditation from recognized bodies such as the Joint Commission International (JCI), Australian Council on Healthcare Standards (ACHS), or equivalent national statutory boards.
-                  </p>
-                </CardBody>
-              </Card>
-
-              <Card>
-                <CardBody>
-                  <div style={{ color: 'var(--color-brand-accent)', marginBottom: 'var(--space-3)' }}>
-                    <LockIcon size={22} />
-                  </div>
-                  <h3 style={{ fontSize: 'var(--font-size-lg)', marginBottom: 'var(--space-2)' }}>
-                    Granular record consent
-                  </h3>
-                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', lineHeight: 1.6, margin: 0 }}>
-                    Your scans and records reside in encrypted, isolated storage. We never share your identifiable health data with any provider without your explicit written authorization for that specific hospital inquiry.
-                  </p>
-                </CardBody>
-              </Card>
-            </div>
+      {/* =========================================================================
+          3. Itemized Quote & Hospital Comparison Module
+          ========================================================================= */}
+      <section
+        id="proof"
+        className="quotes-section"
+        aria-labelledby="quotes-heading"
+      >
+        <div className="container" style={{ maxWidth: '1000px' }}>
+          <div className="section-header-centered">
+            <span className="section-pre-tag">Transparent Hospital Tariffs</span>
+            <h2 id="quotes-heading">
+              Itemized hospital quotes, with no surprise bills.
+            </h2>
+            <p className="section-lead-desc">
+              Every proposal received through EthAum is itemized by surgeon, facility, and supplies before patient presentation.
+            </p>
           </div>
+
+          <ProposalCompare />
         </div>
       </section>
 
-      {/* How It Works (Linear Process Timeline) */}
-      <section id="how-it-works" style={{ padding: 'var(--space-16) 0', backgroundColor: 'var(--color-bg-canvas)', borderTop: '1px solid var(--color-border-subtle)', borderBottom: '1px solid var(--color-border-subtle)' }}>
+      {/* =========================================================================
+          4. Process: Interconnected 4-Step Medical Travel Pathway
+          ========================================================================= */}
+      <section
+        id="how-it-works"
+        className="journey-section"
+        aria-labelledby="journey-heading"
+      >
         <div className="container">
-          <div style={{ maxWidth: '640px', marginBottom: 'var(--space-12)' }}>
-            <Badge variant="navy" style={{ marginBottom: 'var(--space-3)' }}>
-              Coordination journey
-            </Badge>
-            <h2>How international medical travel is coordinated.</h2>
-            <p style={{ marginTop: 'var(--space-2)', color: 'var(--color-text-secondary)' }}>
+          <div className="section-header-centered">
+            <span className="section-pre-tag">Patient Travel Roadmap</span>
+            <h2 id="journey-heading">
+              How international medical travel is coordinated.
+            </h2>
+            <p className="section-lead-desc">
               A disciplined, step-by-step pathway from your initial inquiry through post-discharge recovery.
             </p>
           </div>
 
-          <JourneyTimeline />
+          {/* Connected Horizontal Roadmap Component */}
+          <div className="journey-timeline">
+            <JourneyTimeline />
+          </div>
         </div>
       </section>
 
-      {/* Transparent Itemized Quote Illustration */}
-      <section style={{ padding: 'var(--space-16) 0', backgroundColor: 'var(--color-bg-subtle)', borderTop: '1px solid var(--color-border-subtle)' }}>
+      {/* =========================================================================
+          5. Standards & Governance (Sticky Two-Column Architecture)
+          ========================================================================= */}
+      <section
+        id="standards"
+        className="standards-section"
+        aria-labelledby="standards-heading"
+      >
         <div className="container">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr',
-              gap: 'var(--space-10)',
-              alignItems: 'center',
-            }}
-            className="quote-preview-grid"
-          >
-            <div>
-              <Badge variant="teal" style={{ marginBottom: 'var(--space-3)' }}>
-                Financial transparency
-              </Badge>
-              <h2>Itemized hospital quotes, with no surprise medical bills.</h2>
-              <p style={{ marginTop: 'var(--space-3)', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
-                Unexpected facility charges and hidden physician surcharges are the primary source of distress in cross-border treatment. Every quote received through EthAum must conform to an itemized standard before patient presentation.
+          <div className="quality-two-column-layout">
+            <div className="quality-sticky-column">
+              <span className="section-pre-tag">Patient Protection Framework</span>
+              <h2 id="standards-heading">
+                Operating standards & patient governance.
+              </h2>
+              <p className="standards-sticky-subtext">
+                Medical decisions require licensed doctors. EthAum maintains strict separation between administrative coordination and clinical evaluation.
               </p>
+              <div className="standards-trust-seal">
+                <ShieldCheckIcon size={20} style={{ color: 'var(--color-brand-accent)' }} />
+                <span>Zero Commission Conflict Policy</span>
+              </div>
+            </div>
 
-              <div className="editorial-quote-box">
-                <p style={{ fontStyle: 'italic', fontFamily: 'var(--font-family-editorial)', color: 'var(--color-text-primary)', margin: 0, fontSize: 'var(--font-size-lg)' }}>
-                  &ldquo;A patient traveling thousands of miles for surgery deserves absolute certainty regarding who is treating them, where their money goes, and what follow-up care is guaranteed.&rdquo;
+            <div className="standards-cards-stack">
+              <div className="standards-pillar-card">
+                <div className="pillar-header">
+                  <span className="pillar-num">01</span>
+                  <h3 className="pillar-title">Surgeon-led evaluation</h3>
+                </div>
+                <p className="pillar-body">
+                  Your diagnostic records and surgical candidacy are evaluated directly by credentialed surgical department heads at the destination hospital. We never use automated algorithms to determine candidacy, diagnose conditions, or prescribe therapies.
                 </p>
               </div>
 
-              <div style={{ marginTop: 'var(--space-6)' }}>
-                <Button as={Link} to="/signup" variant="primary" size="md">
-                  Start coordination case
-                  <ArrowRightIcon size={16} />
-                </Button>
-              </div>
-            </div>
-
-            {/* Interactive Proposal Comparison */}
-            <div>
-              <ProposalCompare />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Realistic Editorial Hospital Photography Section */}
-      <section style={{ padding: 'var(--space-16) 0', backgroundColor: 'var(--color-bg-canvas)', borderTop: '1px solid var(--color-border-subtle)' }}>
-        <div className="container">
-          <div style={{ maxWidth: '640px', marginBottom: 'var(--space-10)' }}>
-            <Badge variant="navy" style={{ marginBottom: 'var(--space-3)' }}>
-              Accredited hospital network
-            </Badge>
-            <h2>Verified clinical infrastructure.</h2>
-            <p style={{ marginTop: 'var(--space-2)', color: 'var(--color-text-secondary)' }}>
-              Participating medical centers must demonstrate comprehensive surgical facilities, licensed operating suites, and dedicated international patient desks.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: 'var(--space-6)',
-            }}
-          >
-            {/* Hospital Card 1 */}
-            <div className="hospital-photo-card">
-              <div className="hospital-photo-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80"
-                  alt="Zurich Inpatient Hospital Pavilion"
-                  className="hospital-photo-img"
-                  loading="lazy"
-                />
-                <div className="hospital-photo-overlay" aria-hidden="true" />
-              </div>
-              <div className="hospital-photo-caption-bar">
-                <BuildingIcon size={14} style={{ color: 'var(--color-brand-accent)', flexShrink: 0 }} />
-                <span>Zurich Inpatient Wing: Dedicated post-operative surgical telemetry & private rooms.</span>
-              </div>
-              <div style={{ padding: 'var(--space-5)' }}>
-                <h4 style={{ marginBottom: 'var(--space-1)', fontSize: 'var(--font-size-base)' }}>
-                  Inpatient and surgical pavilions
-                </h4>
-                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 1.55 }}>
-                  Hospitals are evaluated for dedicated post-operative wards, private recovery rooms, and on-site clinical laboratories.
+              <div className="standards-pillar-card">
+                <div className="pillar-header">
+                  <span className="pillar-num">02</span>
+                  <h3 className="pillar-title">Accredited hospitals only</h3>
+                </div>
+                <p className="pillar-body">
+                  Participating medical centers must hold active accreditation from recognized statutory bodies such as the Joint Commission International (JCI), Australian Council on Healthcare Standards (ACHS), or ISO clinical standards.
                 </p>
               </div>
-            </div>
 
-            {/* Hospital Card 2 */}
-            <div className="hospital-photo-card">
-              <div className="hospital-photo-wrapper">
-                <img
-                  src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=900&q=80"
-                  alt="London Clinical Diagnostic Center"
-                  className="hospital-photo-img"
-                  loading="lazy"
-                />
-                <div className="hospital-photo-overlay" aria-hidden="true" />
-              </div>
-              <div className="hospital-photo-caption-bar">
-                <BuildingIcon size={14} style={{ color: 'var(--color-brand-accent)', flexShrink: 0 }} />
-                <span>London Diagnostic Hub: Multi-slice CT, 3T MRI, and accredited pathology suites.</span>
-              </div>
-              <div style={{ padding: 'var(--space-5)' }}>
-                <h4 style={{ marginBottom: 'var(--space-1)', fontSize: 'var(--font-size-base)' }}>
-                  Clinician-to-clinician review
-                </h4>
-                <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 1.55 }}>
-                  Diagnostic imaging and pathology reports are evaluated directly by credentialed specialists before travel recommendations are made.
+              <div className="standards-pillar-card" id="privacy">
+                <div className="pillar-header">
+                  <span className="pillar-num">03</span>
+                  <h3 className="pillar-title">You control your records</h3>
+                </div>
+                <p className="pillar-body">
+                  Your diagnostic scans and notes reside in encrypted, isolated storage. Records are shared only with your explicit written consent for that specific hospital inquiry, and can be exported or permanently purged at any time.
                 </p>
               </div>
             </div>
@@ -365,92 +214,38 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Governance & Patient Bill of Rights Section */}
-      <section id="governance" style={{ padding: 'var(--space-16) 0', backgroundColor: 'var(--color-bg-surface)', borderTop: '1px solid var(--color-border-subtle)' }}>
-        <div className="container">
-          <div style={{ maxWidth: '720px', margin: '0 auto', textAlign: 'center', marginBottom: 'var(--space-10)' }}>
-            <Badge variant="navy" style={{ marginBottom: 'var(--space-3)' }}>
-              Patient governance
-            </Badge>
-            <h2>The EthAum cross-border patient charter.</h2>
-            <p style={{ marginTop: 'var(--space-3)', color: 'var(--color-text-secondary)' }}>
-              We adhere strictly to patient safety regulations, voluntary consent models, and administrative clarity.
-            </p>
-          </div>
+      {/* =========================================================================
+          6. FAQ Section (Accessible Accordion)
+          ========================================================================= */}
+      <div className="faq-list">
+        <FAQSection />
+      </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: 'var(--space-6)',
-              maxWidth: '960px',
-              margin: '0 auto',
-            }}
-          >
-            <div style={{ padding: 'var(--space-5)', backgroundColor: 'var(--color-bg-subtle)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-md)' }}>
-              <div style={{ fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <CheckIcon size={16} />
-                Data sovereignty
-              </div>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 1.6 }}>
-                You retain complete ownership of all medical records. You may export or permanently delete your files at any moment.
-              </p>
-            </div>
-
-            <div style={{ padding: 'var(--space-5)', backgroundColor: 'var(--color-bg-subtle)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-md)' }}>
-              <div style={{ fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <CheckIcon size={16} />
-                Zero clinical intermediation
-              </div>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 1.6 }}>
-                EthAum does not prescribe or alter physician orders. Surgical protocols are established solely between patient and surgeon.
-              </p>
-            </div>
-
-            <div style={{ padding: 'var(--space-5)', backgroundColor: 'var(--color-bg-subtle)', border: '1px solid var(--color-border-subtle)', borderRadius: 'var(--radius-md)' }}>
-              <div style={{ fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: 'var(--space-2)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <CheckIcon size={16} />
-                Transparent hospital pricing
-              </div>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)', margin: 0, lineHeight: 1.6 }}>
-                All proposals present itemized hospital and surgical fees with no hidden markups or referral commissions.
-              </p>
-            </div>
-          </div>
-
-          {/* Bottom Action Box */}
-          <div
-            style={{
-              maxWidth: '720px',
-              margin: 'var(--space-12) auto 0 auto',
-              padding: 'var(--space-8)',
-              backgroundColor: 'var(--color-bg-surface)',
-              border: '1px solid var(--color-border-medium)',
-              borderRadius: 'var(--radius-lg)',
-              textAlign: 'center',
-              boxShadow: 'var(--shadow-xs)',
-            }}
-          >
-            <h3 style={{ marginBottom: 'var(--space-2)' }}>
+      {/* =========================================================================
+          7. Closing Band: Conversion Dossier Initiation
+          ========================================================================= */}
+      <section className="cta-band-section" aria-labelledby="cta-heading">
+        <div className="container" style={{ maxWidth: '720px' }}>
+          <div className="cta-band-card">
+            <span className="cta-kicker">Confidential Care Inquiry</span>
+            <h2 id="cta-heading" className="cta-title">
               Ready to assemble your coordination dossier?
-            </h3>
-            <p style={{ color: 'var(--color-text-secondary)', maxWidth: '480px', margin: '0 auto var(--space-6) auto', fontSize: 'var(--font-size-sm)' }}>
-              Register as a patient to organize records and request quotes, or register as an accredited hospital partner.
+            </h2>
+            <p className="cta-sub">
+              Upload your diagnostic summaries to receive accredited surgical review and itemized transparent proposals.
             </p>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
-              <Button as={Link} to="/signup" variant="primary" size="md">
-                Start coordination case
+            <div className="cta-action-wrap">
+              <Button as={Link} to="/signup" variant="primary" size="lg" className="cta-action-btn">
+                <span>Start a case</span>
+                <ArrowRightIcon size={16} />
               </Button>
-              <Button as="a" href="#how-it-works" variant="secondary" size="md">
-                How coordination works
-              </Button>
+            </div>
+            <div className="cta-guarantee-note">
+              Encrypted record storage • No data shared without consent • Zero spam guarantee
             </div>
           </div>
         </div>
       </section>
-
-      {/* Accessible FAQ Section (Built on native details/summary) */}
-      <FAQSection />
     </div>
   );
 }

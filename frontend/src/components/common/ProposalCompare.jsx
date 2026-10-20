@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Badge from './Badge';
-import { ChevronDownIcon, CheckIcon, BuildingIcon } from './Icons';
+import { ChevronDownIcon, CheckIcon, BuildingIcon, InfoIcon, ShieldCheckIcon } from './Icons';
 
 export const SAMPLE_PROPOSALS = [
   {
@@ -8,40 +8,50 @@ export const SAMPLE_PROPOSALS = [
     hospitalName: 'Zurich St. Anna Medical Center',
     location: 'Zurich, Switzerland',
     accreditation: 'ACHS / Swiss Med',
-    procedureName: 'Total Joint Arthroplasty',
+    procedureName: 'Total Joint Arthroplasty (Hip / Knee)',
     currency: 'USD',
     isSample: true,
-    disclaimer: 'Sample figures for demonstration only',
+    surgeonLead: 'Prof. Dr. med. H. Keller, FMH',
+    surgeonTitle: 'Chief of Musculoskeletal Surgery (18+ yrs tenure)',
+    inpatientStay: '4 nights in private telemetry suite',
+    rehabSummary: 'Daily dedicated physical rehabilitation prior to discharge',
+    contingencyTerm: 'Emergency intra-op contingency covered up to $5,000',
+    prosthesisModel: 'CE/FDA modular titanium stem & ceramic articulation head',
     items: [
       {
         id: 'surg',
         name: 'Surgeon and anesthesia team fees',
         amount: 5400,
         detail: 'Board-certified operating surgeon, assistant surgical fellow, and anesthesiologist throughout surgery.',
+        tooltip: 'Includes pre-op clinical review, surgical execution, surgical fellowship assistance, and continuous anesthesiology telemetry.',
       },
       {
         id: 'theat',
         name: 'Operating theater & sterilization',
         amount: 4200,
         detail: '3.5 hours sterile surgical suite access, complete sterile instrumentation trays, and intraoperative fluoroscopy.',
+        tooltip: 'Ultra-clean laminar airflow Class-1 theater, autoclave verification tracking, disposable drapes, and fluoroscopy imaging.',
       },
       {
         id: 'impl',
         name: 'Joint prosthesis & surgical supplies',
         amount: 3800,
         detail: 'Standard FDA/CE-cleared joint prosthesis (modular titanium femoral stem and ceramic articulation head).',
+        tooltip: 'Traceable implant passport with manufacturer lot ID, biocompatible titanium fixation, and high-density ceramic articulation.',
       },
       {
         id: 'inpat',
         name: 'Inpatient hospital stay (4 nights)',
         amount: 3600,
         detail: 'Private telemetry recovery room, 24/7 registered nurse care, routine post-op laboratory panels, and medications.',
+        tooltip: 'Private en-suite recovery room, continuous vitals monitoring, daily physician ward rounds, and complete pharmaceuticals.',
       },
       {
         id: 'rehab',
         name: 'In-hospital physical rehabilitation',
         amount: 1400,
         detail: 'Daily mobility and gait re-education sessions with licensed musculoskeletal physical therapist prior to discharge.',
+        tooltip: 'Licensed orthopedic physiotherapist sessions twice daily, gait training, stair assessment, and home exercise dossier.',
       },
     ],
   },
@@ -50,40 +60,50 @@ export const SAMPLE_PROPOSALS = [
     hospitalName: 'London Wellington Surgical Institute',
     location: 'London, United Kingdom',
     accreditation: 'CQC / JCI Accredited',
-    procedureName: 'Total Joint Arthroplasty',
+    procedureName: 'Total Joint Arthroplasty (Hip / Knee)',
     currency: 'USD',
     isSample: true,
-    disclaimer: 'Sample figures for demonstration only',
+    surgeonLead: 'Mr. J. Arbuthnot, FRCS (Tr & Orth)',
+    surgeonTitle: 'Consultant Orthopedic Surgeon (Royal College Fellow)',
+    inpatientStay: '3 nights in private en-suite recovery ward',
+    rehabSummary: 'Twice daily physiotherapist sessions & stair mobility sign-off',
+    contingencyTerm: 'Comprehensive complication coverage backed by NHS liaison protocol',
+    prosthesisModel: 'CE dual-mobility ceramic articulation with trabecular metal backing',
     items: [
       {
         id: 'surg',
         name: 'Surgeon and anesthesia team fees',
         amount: 6100,
         detail: 'Consultant orthopedic lead, operating registrar, and consultant anesthesiologist with continuous regional block.',
+        tooltip: 'Consultant-led surgical team, registered clinical assistant, and regional nerve block analgesia.',
       },
       {
         id: 'theat',
         name: 'Operating theater & sterilization',
         amount: 4600,
         detail: 'Laminar airflow orthopedic theater with robotic navigation guidance and single-use sterile procedure packs.',
+        tooltip: 'Robotic navigation alignment tracking, laminar sterile airflow, and certified single-use procedure packs.',
       },
       {
         id: 'impl',
         name: 'Joint prosthesis & surgical supplies',
         amount: 4100,
         detail: 'CE-marked dual-mobility joint component with verified manufacturer implant passport and trace verification.',
+        tooltip: 'Dual-mobility hip articulation system designed for active stability with titanium porous osteointegration.',
       },
       {
         id: 'inpat',
         name: 'Inpatient hospital stay (3 nights)',
         amount: 3900,
         detail: 'Private en-suite recovery ward, round-the-clock clinical observation, diagnostics, and pharmaceutical support.',
+        tooltip: 'Private room with dedicated nursing care, bedside telemetry, routine labs, and post-operative pain management.',
       },
       {
         id: 'rehab',
         name: 'In-hospital physical rehabilitation',
         amount: 1650,
         detail: 'Bi-daily dedicated physiotherapy sessions, safe transfer training, and home mobility exercise plan handover.',
+        tooltip: 'Dedicated musculoskeletal physiotherapist twice daily, safe transfer training, and tailored travel clearance review.',
       },
     ],
   },
@@ -100,8 +120,9 @@ function formatUSD(amount) {
 export function ProposalCompare({ proposals = SAMPLE_PROPOSALS }) {
   const [viewMode, setViewMode] = useState('one'); // 'one' | 'compare'
   const [expandedItems, setExpandedItems] = useState({
-    'quote-zurich-surg': true, // start with one expanded to demonstrate capability
+    'quote-zurich-surg': true,
   });
+  const [activeTooltip, setActiveTooltip] = useState(null);
 
   const toggleItem = (key) => {
     setExpandedItems((prev) => ({
@@ -113,88 +134,40 @@ export function ProposalCompare({ proposals = SAMPLE_PROPOSALS }) {
   const calculateTotal = (proposal) =>
     proposal.items.reduce((sum, item) => sum + item.amount, 0);
 
-  const displayedProposals = viewMode === 'one' ? [proposals[0]] : proposals;
+  const zurichTotal = calculateTotal(proposals[0]);
+  const londonTotal = calculateTotal(proposals[1]);
+  const priceVariance = londonTotal - zurichTotal;
 
   return (
-    <div
-      style={{
-        backgroundColor: 'var(--color-bg-subtle)',
-        border: '1px solid var(--color-border-medium)',
-        borderRadius: 'var(--radius-lg)',
-        padding: 'var(--space-6)',
-        boxShadow: 'var(--shadow-sm)',
-      }}
-      aria-label="Interactive proposal comparison"
-    >
-      {/* Header and View Mode Toggle */}
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 'var(--space-4)',
-          marginBottom: 'var(--space-5)',
-          paddingBottom: 'var(--space-4)',
-          borderBottom: '1px solid var(--color-border-subtle)',
-        }}
-      >
+    <div className="proposal-module-container" aria-label="Interactive proposal comparison">
+      {/* Header and Sliding Pill Segmented Control */}
+      <div className="proposal-header-row">
         <div>
-          <span
-            style={{
-              fontSize: 'var(--font-size-xs)',
-              fontWeight: 600,
-              color: 'var(--color-brand-accent)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              display: 'block',
-            }}
-          >
+          <span className="proposal-badge-sub">
             Sample standard proposal
           </span>
-          <h3
-            style={{
-              fontSize: 'var(--font-size-lg)',
-              fontWeight: 600,
-              color: 'var(--color-text-primary)',
-              margin: '2px 0 0 0',
-            }}
-          >
+          <h3 className="proposal-title">
             Itemized coordination quotes
           </h3>
         </div>
 
-        {/* View Switcher Toggle */}
+        {/* Sliding Pill Control */}
         <div
           role="radiogroup"
           aria-label="Quote comparison view mode"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            backgroundColor: 'var(--color-bg-surface)',
-            border: '1px solid var(--color-border-subtle)',
-            borderRadius: 'var(--radius-full)',
-            padding: '3px',
-            gap: '2px',
-          }}
+          className="sliding-pill-container"
         >
+          {/* Animated sliding background pill */}
+          <div
+            className={`sliding-pill-indicator ${viewMode === 'compare' ? 'slide-right' : 'slide-left'}`}
+            aria-hidden="true"
+          />
           <button
             type="button"
             role="radio"
             aria-checked={viewMode === 'one'}
             onClick={() => setViewMode('one')}
-            style={{
-              padding: '0.35rem 0.875rem',
-              fontSize: 'var(--font-size-xs)',
-              fontWeight: viewMode === 'one' ? 600 : 500,
-              backgroundColor: viewMode === 'one' ? 'var(--color-brand-primary)' : 'transparent',
-              color: viewMode === 'one' ? 'var(--color-brand-primary-text)' : 'var(--color-text-secondary)',
-              borderRadius: 'var(--radius-full)',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all var(--transition-fast)',
-            }}
-            className="proposal-mode-btn"
+            className={`sliding-pill-btn ${viewMode === 'one' ? 'active' : ''}`}
           >
             One quote
           </button>
@@ -203,216 +176,238 @@ export function ProposalCompare({ proposals = SAMPLE_PROPOSALS }) {
             role="radio"
             aria-checked={viewMode === 'compare'}
             onClick={() => setViewMode('compare')}
-            style={{
-              padding: '0.35rem 0.875rem',
-              fontSize: 'var(--font-size-xs)',
-              fontWeight: viewMode === 'compare' ? 600 : 500,
-              backgroundColor: viewMode === 'compare' ? 'var(--color-brand-primary)' : 'transparent',
-              color: viewMode === 'compare' ? 'var(--color-brand-primary-text)' : 'var(--color-text-secondary)',
-              borderRadius: 'var(--radius-full)',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all var(--transition-fast)',
-            }}
-            className="proposal-mode-btn"
+            className={`sliding-pill-btn ${viewMode === 'compare' ? 'active' : ''}`}
           >
             Compare (2 hospitals)
           </button>
         </div>
       </div>
 
-      {/* Proposals Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: viewMode === 'compare' ? 'repeat(auto-fit, minmax(280px, 1fr))' : '1fr',
-          gap: 'var(--space-6)',
-          alignItems: 'start',
-        }}
-      >
-        {displayedProposals.map((proposal) => {
-          const total = calculateTotal(proposal);
-
-          return (
-            <div
-              key={proposal.id}
-              style={{
-                backgroundColor: 'var(--color-bg-surface)',
-                border: '1px solid var(--color-border-subtle)',
-                borderRadius: 'var(--radius-md)',
-                padding: 'var(--space-5)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 'var(--space-4)',
-              }}
-            >
-              {/* Proposal Header */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--color-brand-accent)', marginBottom: '2px' }}>
-                    <BuildingIcon size={14} />
-                    <span style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600 }}>
-                      {proposal.location}
-                    </span>
-                  </div>
-                  <h4 style={{ fontSize: 'var(--font-size-base)', fontWeight: 600, margin: 0 }}>
-                    {proposal.hospitalName}
-                  </h4>
-                </div>
-                <Badge variant="teal" style={{ fontSize: '0.75rem', whiteSpace: 'nowrap' }}>
-                  {proposal.accreditation}
-                </Badge>
+      {/* SINGLE QUOTE VIEW: Rich Itemized Table & Inclusions */}
+      {viewMode === 'one' && (
+        <div className="single-quote-view animate-fade-in">
+          {/* Facility Overview Banner */}
+          <div className="quote-facility-banner">
+            <div className="facility-meta-left">
+              <div className="facility-location-tag">
+                <BuildingIcon size={14} style={{ color: 'var(--color-brand-accent)' }} />
+                <span>{proposals[0].location}</span>
               </div>
+              <h4 className="facility-headline">{proposals[0].hospitalName}</h4>
+              <p className="facility-procedure">
+                Target procedure: <strong>{proposals[0].procedureName}</strong>
+              </p>
+            </div>
 
-              {/* Procedure subtitle */}
-              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)' }}>
-                Target procedure: <strong>{proposal.procedureName}</strong>
-              </div>
-
-              {/* Itemized Line Items */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-                {proposal.items.map((item) => {
-                  const key = `${proposal.id}-${item.id}`;
-                  const isExpanded = !!expandedItems[key];
-
-                  return (
-                    <div
-                      key={item.id}
-                      style={{
-                        backgroundColor: 'var(--color-bg-subtle)',
-                        border: '1px solid var(--color-border-subtle)',
-                        borderRadius: 'var(--radius-sm)',
-                        overflow: 'hidden',
-                        transition: 'background-color var(--transition-fast)',
-                      }}
-                    >
-                      <button
-                        type="button"
-                        aria-expanded={isExpanded}
-                        aria-controls={`detail-${key}`}
-                        onClick={() => toggleItem(key)}
-                        style={{
-                          width: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          gap: 'var(--space-2)',
-                          padding: '0.625rem 0.75rem',
-                          background: 'transparent',
-                          border: 'none',
-                          textAlign: 'left',
-                          cursor: 'pointer',
-                          color: 'var(--color-text-primary)',
-                        }}
-                        className="proposal-item-toggle"
-                      >
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: 1, minWidth: 0 }}>
-                          <ChevronDownIcon
-                            size={14}
-                            style={{
-                              transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                              transition: 'transform var(--transition-fast)',
-                              color: 'var(--color-brand-accent)',
-                              flexShrink: 0,
-                            }}
-                          />
-                          <span
-                            style={{
-                              fontSize: 'var(--font-size-xs)',
-                              fontWeight: 600,
-                              lineHeight: 1.3,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                            }}
-                          >
-                            {item.name}
-                          </span>
-                        </div>
-                        <span
-                          style={{
-                            fontSize: 'var(--font-size-xs)',
-                            fontWeight: 700,
-                            fontVariantNumeric: 'tabular-nums',
-                            color: 'var(--color-text-primary)',
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          {formatUSD(item.amount)}
-                        </span>
-                      </button>
-
-                      {isExpanded && (
-                        <div
-                          id={`detail-${key}`}
-                          style={{
-                            padding: '0 0.75rem 0.625rem 1.85rem',
-                            fontSize: 'var(--font-size-xs)',
-                            color: 'var(--color-text-secondary)',
-                            lineHeight: 1.5,
-                            borderTop: '1px dashed var(--color-border-subtle)',
-                            paddingTop: '0.4rem',
-                          }}
-                        >
-                          {item.detail}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Total Summary Row */}
-              <div
-                style={{
-                  marginTop: 'var(--space-2)',
-                  paddingTop: 'var(--space-3)',
-                  borderTop: '1px solid var(--color-border-medium)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <div>
-                  <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-secondary)', display: 'block' }}>
-                    Estimated package total
-                  </span>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
-                    Sample figures for demonstration
-                  </span>
-                </div>
-                <div
-                  style={{
-                    fontSize: 'var(--font-size-xl)',
-                    fontWeight: 700,
-                    fontFamily: 'var(--font-family-sans)',
-                    color: 'var(--color-text-primary)',
-                    fontVariantNumeric: 'tabular-nums',
-                  }}
-                >
-                  {formatUSD(total)}
-                </div>
+            <div className="facility-meta-right">
+              <Badge variant="teal" style={{ fontSize: '0.8125rem' }}>
+                {proposals[0].accreditation}
+              </Badge>
+              <div className="quote-total-lockup">
+                <span className="quote-total-label">Fixed Standard Proposal</span>
+                <span className="quote-total-amount">{formatUSD(zurichTotal)} (All-inclusive)</span>
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+
+          {/* Inclusion Status Tags Strip */}
+          <div className="quote-inclusion-tags-strip">
+            <span className="inclusion-tag">
+              <CheckIcon size={13} style={{ color: 'var(--color-brand-accent)' }} />
+              Includes 4 nights inpatient + post-op rehab
+            </span>
+            <span className="inclusion-tag">
+              <CheckIcon size={13} style={{ color: 'var(--color-brand-accent)' }} />
+              Contingency terms: $5,000 unforeseen intra-op reserve
+            </span>
+            <span className="inclusion-tag">
+              <CheckIcon size={13} style={{ color: 'var(--color-brand-accent)' }} />
+              Implant passport & manufacturer serial tracking
+            </span>
+          </div>
+
+          {/* Itemized Breakdown Table with Tooltips and Zebra Rows */}
+          <div className="quote-table-wrapper">
+            <table className="quote-breakdown-table" role="table">
+              <thead>
+                <tr>
+                  <th scope="col" style={{ width: '42%' }}>Clinical Component</th>
+                  <th scope="col" style={{ width: '38%' }}>Scope Specification</th>
+                  <th scope="col" style={{ width: '20%', textAlign: 'right' }}>Standard Fee</th>
+                </tr>
+              </thead>
+              <tbody>
+                {proposals[0].items.map((item, idx) => {
+                  const key = `quote-zurich-${item.id}`;
+                  const isExpanded = !!expandedItems[key];
+                  const hasTooltip = activeTooltip === item.id;
+
+                  return (
+                    <tr key={item.id} className={idx % 2 === 1 ? 'zebra-row' : ''}>
+                      <td>
+                        <div className="table-item-title-box">
+                          <button
+                            type="button"
+                            aria-expanded={isExpanded}
+                            aria-controls={`detail-${key}`}
+                            onClick={() => toggleItem(key)}
+                            className="proposal-item-toggle table-expand-btn"
+                          >
+                            <ChevronDownIcon
+                              size={14}
+                              style={{
+                                transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                                transition: 'transform var(--transition-fast)',
+                                color: 'var(--color-brand-accent)',
+                              }}
+                            />
+                            <span className="table-item-name">{item.name}</span>
+                          </button>
+
+                          {/* Interactive Tooltip Button (ℹ️) */}
+                          <div className="tooltip-anchor">
+                            <button
+                              type="button"
+                              className="info-tooltip-btn"
+                              aria-label={`Clinical detail for ${item.name}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveTooltip(hasTooltip ? null : item.id);
+                              }}
+                              title={item.tooltip}
+                            >
+                              <InfoIcon size={14} />
+                            </button>
+                            {hasTooltip && (
+                              <div className="tooltip-popover animate-fade-in" role="tooltip">
+                                <div className="tooltip-title">Clinical Breakdown</div>
+                                <div className="tooltip-text">{item.tooltip}</div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        {isExpanded && (
+                          <div id={`detail-${key}`} className="table-sub-detail">
+                            {item.detail}
+                          </div>
+                        )}
+                      </td>
+                      <td className="table-item-scope">
+                        {item.detail}
+                      </td>
+                      <td className="table-item-price">
+                        {formatUSD(item.amount)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+              <tfoot>
+                <tr className="table-total-row">
+                  <td colSpan={2}>
+                    <strong>Comprehensive Package Total</strong>
+                    <span className="total-disclaimer">Fixed quotation guaranteed against surprise billing</span>
+                  </td>
+                  <td className="total-cell-amount">
+                    {formatUSD(zurichTotal)}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* COMPARE VIEW: Side-by-Side Facility Matrix & Variance Breakdown */}
+      {viewMode === 'compare' && (
+        <div className="compare-view-grid animate-fade-in">
+          {/* Price Variance Callout */}
+          <div className="compare-variance-banner">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+              <ShieldCheckIcon size={18} style={{ color: 'var(--color-brand-accent)' }} />
+              <div>
+                <strong>Facility Proposal Variance:</strong> Zurich St. Anna is{' '}
+                <span className="variance-highlight">{formatUSD(priceVariance)} (10.6%) lower</span> than London
+                Wellington, primarily due to theater tariffs and inpatient tariff structures.
+              </div>
+            </div>
+          </div>
+
+          <div className="compare-cards-two-col">
+            {proposals.map((proposal) => {
+              const total = calculateTotal(proposal);
+              const isZurich = proposal.id === 'quote-zurich';
+
+              return (
+                <div key={proposal.id} className="compare-card">
+                  <div className="compare-card-header">
+                    <div>
+                      <span className="compare-card-location">
+                        <BuildingIcon size={13} style={{ color: 'var(--color-brand-accent)' }} />
+                        {proposal.location}
+                      </span>
+                      <h4 className="compare-card-hospital">{proposal.hospitalName}</h4>
+                    </div>
+                    <Badge variant="teal">{proposal.accreditation}</Badge>
+                  </div>
+
+                  {/* Pricing Total */}
+                  <div className="compare-price-strip">
+                    <span className="compare-price-label">All-Inclusive Fixed Proposal</span>
+                    <span className="compare-price-val">{formatUSD(total)}</span>
+                  </div>
+
+                  {/* Clinical Credentials Matrix */}
+                  <div className="compare-specs-list">
+                    <div className="compare-spec-row">
+                      <span className="spec-label">Surgeon Lead</span>
+                      <span className="spec-val">
+                        <strong>{proposal.surgeonLead}</strong>
+                        <small>{proposal.surgeonTitle}</small>
+                      </span>
+                    </div>
+
+                    <div className="compare-spec-row">
+                      <span className="spec-label">Inpatient Stay</span>
+                      <span className="spec-val">{proposal.inpatientStay}</span>
+                    </div>
+
+                    <div className="compare-spec-row">
+                      <span className="spec-label">Rehabilitation</span>
+                      <span className="spec-val">{proposal.rehabSummary}</span>
+                    </div>
+
+                    <div className="compare-spec-row">
+                      <span className="spec-label">Implant Tech</span>
+                      <span className="spec-val">{proposal.prosthesisModel}</span>
+                    </div>
+
+                    <div className="compare-spec-row">
+                      <span className="spec-label">Contingency</span>
+                      <span className="spec-val">{proposal.contingencyTerm}</span>
+                    </div>
+                  </div>
+
+                  {/* Itemized Mini List for Quick Scan */}
+                  <div className="compare-items-accordion">
+                    <div className="compare-items-title">Itemized Line Items</div>
+                    {proposal.items.map((item) => (
+                      <div key={item.id} className="compare-item-line">
+                        <span>{item.name}</span>
+                        <strong>{formatUSD(item.amount)}</strong>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Grounding Footer Notice */}
-      <div
-        style={{
-          marginTop: 'var(--space-4)',
-          paddingTop: 'var(--space-3)',
-          borderTop: '1px solid var(--color-border-subtle)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: 'var(--space-2)',
-          fontSize: 'var(--font-size-xs)',
-          color: 'var(--color-text-muted)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+      <div className="proposal-footer-notice">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <CheckIcon size={14} style={{ color: 'var(--color-brand-accent)' }} />
           <span>Line items expand for clinical breakdown. All quotes include emergency contingency terms.</span>
         </div>

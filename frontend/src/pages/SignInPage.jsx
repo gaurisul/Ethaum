@@ -214,7 +214,7 @@ export function SignInPage() {
               <p style={{ fontSize: 'var(--font-size-sm)', margin: 0 }}>
                 Don&apos;t have an account yet?{' '}
                 <Link to="/signup" style={{ fontWeight: 600, color: 'var(--color-brand-accent)' }}>
-                  Create Account
+                  Create account
                 </Link>
               </p>
             </div>

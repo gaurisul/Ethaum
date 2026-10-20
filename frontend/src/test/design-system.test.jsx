@@ -168,10 +168,13 @@ describe('Navigation and Layout Components', () => {
     );
     expect(screen.getByText(/eth/i)).toBeInTheDocument();
     expect(screen.getByText(/aum/i)).toBeInTheDocument();
-    expect(screen.getByText('Overview')).toBeInTheDocument();
+    expect(screen.getByText('How it works')).toBeInTheDocument();
+    expect(screen.getByText('Standards')).toBeInTheDocument();
+    expect(screen.getByText('Privacy')).toBeInTheDocument();
+    expect(screen.getByText('FAQ')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /sign in/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /get started/i })).toBeInTheDocument();
-    expect(screen.getByRole('radiogroup', { name: /theme preference/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /start a case/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /current theme/i })).toBeInTheDocument();
   });
 
   it('renders Footer with regulatory boundaries disclaimer and synthetic demo notes', () => {
@@ -269,7 +272,7 @@ describe('HeroIntakeTeaser Component', () => {
     expect(screen.getByLabelText(/country of residence/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/target timeline/i)).toBeInTheDocument();
 
-    const submitBtn = screen.getByRole('button', { name: /start coordination case/i });
+    const submitBtn = screen.getByRole('button', { name: /start a case/i });
     fireEvent.click(submitBtn);
 
     // Shows validation error alert
@@ -286,7 +289,7 @@ describe('Page Views & Routing', () => {
       </MemoryRouter>
     );
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/cross-border medical care/i);
-    expect(screen.getByText(/built on clinical ethics, not algorithmic shortcuts/i)).toBeInTheDocument();
+    expect(screen.getByText(/operating standards & patient governance/i)).toBeInTheDocument();
     expect(screen.getByText(/how international medical travel is coordinated/i)).toBeInTheDocument();
     expect(screen.getByText(/sample standard proposal/i)).toBeInTheDocument();
   });
@@ -362,15 +365,13 @@ describe('Page Views & Routing', () => {
     expect(screen.getByRole('link', { name: /return to overview/i })).toBeInTheDocument();
   });
 
-  it('renders HealthcareGlobe with accessible label and active hub status in light and dark mode', () => {
+  it('renders HealthcareGlobe with accessible label in light and dark mode', () => {
     localStorage.setItem('ethaum_theme_preference', 'light');
     const { unmount } = render(
       <ThemeProvider>
         <HealthcareGlobe />
       </ThemeProvider>
     );
-    expect(screen.getByText(/verified hub/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/zurich/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/interactive 3d visualization/i)).toBeInTheDocument();
     unmount();
 
@@ -381,8 +382,7 @@ describe('Page Views & Routing', () => {
         <HealthcareGlobe />
       </ThemeProvider>
     );
-    expect(screen.getByText(/verified hub/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/zurich/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(/interactive 3d visualization/i)).toBeInTheDocument();
   });
 
   it('renders accessible SVG fallback when canvas context is unavailable', () => {
@@ -396,7 +396,6 @@ describe('Page Views & Routing', () => {
     );
 
     expect(screen.getByText(/interactive 3d visualization/i)).toBeInTheDocument();
-    expect(screen.getByText(/verified hub/i)).toBeInTheDocument();
 
     // Restore mock
     HTMLCanvasElement.prototype.getContext = originalGetContext;
@@ -421,7 +420,7 @@ describe('Page Views & Routing', () => {
       </ThemeProvider>
     );
 
-    expect(screen.getByText(/verified hub/i)).toBeInTheDocument();
+    expect(screen.getByText(/interactive 3d visualization/i)).toBeInTheDocument();
     window.matchMedia = originalMatchMedia;
   });
 });

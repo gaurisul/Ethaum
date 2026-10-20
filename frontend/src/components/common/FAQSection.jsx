@@ -1,10 +1,10 @@
 import React from 'react';
-import Badge from './Badge';
-import { ChevronDownIcon } from './Icons';
+import { ChevronDownIcon, ShieldCheckIcon } from './Icons';
 
 export const FAQ_ITEMS = [
   {
     id: 'faq-earnings',
+    category: 'Commercial Model',
     question: 'How does EthAum earn money?',
     answer:
       'EthAum charges participating accredited hospital systems a fixed administrative infrastructure fee for case dossier compilation and secure transmission. EthAum does not take percentage referral cuts that bias clinical recommendations, and patients never pay hidden quote markups.',
@@ -12,6 +12,7 @@ export const FAQ_ITEMS = [
   },
   {
     id: 'faq-delete-records',
+    category: 'Privacy & Sovereignty',
     question: 'How can I permanently delete my medical records?',
     answer:
       'You maintain full data sovereignty over all submitted records. You can export or permanently delete your diagnostic scans, physician notes, and personal dossier from your account settings at any time. Once requested, files are purged from encrypted object storage.',
@@ -19,12 +20,14 @@ export const FAQ_ITEMS = [
   },
   {
     id: 'faq-surgery-decision',
+    category: 'Clinical Governance',
     question: 'Who decides whether surgery is needed?',
     answer:
       'Clinical evaluation and surgical candidacy decisions are made exclusively by licensed medical doctors and destination hospital surgical department heads. EthAum operates strictly as an administrative coordination service and does not diagnose, prescribe, or determine clinical suitability.',
   },
   {
     id: 'faq-complications',
+    category: 'Post-Op Protocol',
     question: 'What happens if complications arise after returning home?',
     answer:
       'Every participating accredited hospital proposal must include a formal discharge summary and clinical handover note for your local physician, as well as a defined window for post-operative remote follow-up consultations with your operating surgical team.',
@@ -32,6 +35,7 @@ export const FAQ_ITEMS = [
   },
   {
     id: 'faq-visas',
+    category: 'Travel Logistics',
     question: 'What are the visa requirements for medical travel?',
     answer:
       'Visa regulations depend on your citizenship and destination jurisdiction. Many countries offer dedicated medical entry visas, while others allow planned care under standard visitor permits. Upon proposal acceptance, the hospital provides official clinical admission letters to support consular paperwork.',
@@ -43,40 +47,57 @@ export function FAQSection({ items = FAQ_ITEMS }) {
   return (
     <section
       id="faq"
-      style={{
-        padding: 'var(--space-16) 0',
-        backgroundColor: 'var(--color-bg-subtle)',
-        borderTop: '1px solid var(--color-border-subtle)',
-      }}
+      className="faq-section"
       aria-labelledby="faq-heading"
     >
-      <div className="container" style={{ maxWidth: '820px' }}>
-        <div style={{ textAlign: 'center', marginBottom: 'var(--space-10)' }}>
-          <Badge variant="teal" style={{ marginBottom: 'var(--space-3)' }}>
+      <div className="container" style={{ maxWidth: '840px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 'var(--space-8)' }}>
+          <span className="faq-tag">Governance & Transparency</span>
+          <h2 id="faq-heading" className="faq-main-heading">
             Frequently asked questions
-          </Badge>
-          <h2 id="faq-heading">Frequently asked questions about medical coordination.</h2>
-          <p style={{ marginTop: 'var(--space-3)', color: 'var(--color-text-secondary)', fontSize: 'var(--font-size-base)' }}>
-            Plain explanations of our administrative model, patient privacy rights, and travel logistics.
+          </h2>
+          <p className="faq-lead-sub">
+            Clear answers on medical governance, surgeon evaluations, data privacy, and hospital pricing.
           </p>
         </div>
 
-        <div className="faq-list">
-          {items.map((item) => (
-            <details key={item.id} className="faq-item" id={item.id}>
-              <summary className="faq-summary">
-                <span className="faq-question">{item.question}</span>
-                <span className="faq-chevron" aria-hidden="true">
+        <div className="faq-accordion-container">
+          {items.map((item, idx) => (
+            <details
+              key={item.id}
+              className="faq-accordion-item"
+              id={item.id}
+              open={idx === 0 ? true : undefined}
+            >
+              <summary className="faq-summary-row">
+                <div className="faq-question-lockup">
+                  {item.category && (
+                    <span className="faq-category-tag">{item.category}</span>
+                  )}
+                  <span className="faq-question-text">{item.question}</span>
+                </div>
+                <span className="faq-chevron-wrapper" aria-hidden="true">
                   <ChevronDownIcon size={16} />
                 </span>
               </summary>
-              <div className="faq-content">
-                <p style={{ margin: 0, fontSize: 'var(--font-size-sm)', lineHeight: 1.65, color: 'var(--color-text-secondary)' }}>
+              <div className="faq-answer-drawer animate-fade-in">
+                <p className="faq-answer-text">
                   {item.answer}
                 </p>
               </div>
             </details>
           ))}
+        </div>
+
+        {/* Support Callout */}
+        <div className="faq-support-strip">
+          <ShieldCheckIcon size={16} style={{ color: 'var(--color-brand-accent)' }} />
+          <span>
+            Have a question about specific medical records or travel criteria?{' '}
+            <a href="mailto:coordination@ethaum.example.com" className="support-link">
+              Contact our clinical coordination desk →
+            </a>
+          </span>
         </div>
       </div>
     </section>

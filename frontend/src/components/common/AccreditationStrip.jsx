@@ -1,113 +1,63 @@
 import React from 'react';
-import { ShieldCheckIcon } from './Icons';
+import { ShieldCheckIcon, LockIcon, CheckCircleIcon } from './Icons';
 
 export const ACCREDITATION_BODIES = [
   {
     code: 'JCI',
     name: 'Joint Commission International',
-    category: 'Hospital accreditation',
+    category: 'Hospital Accreditation',
+    badge: 'Gold Seal of Approval',
   },
   {
     code: 'ISO 9001 / 15189',
-    name: 'Clinical quality & labs',
-    category: 'International standardization',
+    name: 'Clinical quality & diagnostic labs',
+    category: 'International Standardization',
+    badge: 'Quality Management',
   },
   {
     code: 'ACHS International',
-    name: 'Healthcare standards',
-    category: 'Clinical governance',
+    name: 'Healthcare standards & safety',
+    category: 'Clinical Governance',
+    badge: 'Australian Council Standards',
   },
   {
     code: 'CQC / National Statutory',
-    name: 'Statutory health boards',
-    category: 'Jurisdictional oversight',
+    name: 'Statutory health inspection boards',
+    category: 'Jurisdictional Oversight',
+    badge: 'Statutory Inspection',
   },
 ];
 
 export function AccreditationStrip() {
   return (
     <section
-      style={{
-        backgroundColor: 'var(--color-bg-subtle)',
-        borderBottom: '1px solid var(--color-border-subtle)',
-        padding: 'var(--space-6) 0',
-      }}
+      className="accreditation-strip-container"
       aria-label="Accreditation standards"
     >
       <div className="container">
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'var(--space-4)',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: 'var(--space-2)',
-            }}
-          >
+        <div className="accreditation-strip-inner">
+          <div className="accreditation-strip-header">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <ShieldCheckIcon size={16} style={{ color: 'var(--color-brand-accent)' }} />
-              <span
-                style={{
-                  fontSize: 'var(--font-size-xs)',
-                  fontWeight: 600,
-                  color: 'var(--color-text-secondary)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.04em',
-                }}
-              >
-                Network clinical accreditation baseline
+              <span className="accreditation-title">
+                Network Clinical Accreditation Baseline
               </span>
             </div>
-            {/* Licensed partner accreditation standards */}
+            <div className="accreditation-encryption-pill">
+              <LockIcon size={12} style={{ color: 'var(--color-brand-accent)' }} />
+              <span>256-bit HIPAA-compliant encryption</span>
+            </div>
           </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: 'var(--space-3)',
-            }}
-          >
+          <div className="accreditation-badges-grid">
             {ACCREDITATION_BODIES.map((acc) => (
-              <div
-                key={acc.code}
-                style={{
-                  backgroundColor: 'var(--color-bg-surface)',
-                  border: '1px solid var(--color-border-subtle)',
-                  borderRadius: 'var(--radius-md)',
-                  padding: 'var(--space-3) var(--space-4)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '2px',
-                  boxShadow: 'var(--shadow-xs)',
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: 'var(--font-size-sm)',
-                    fontWeight: 700,
-                    color: 'var(--color-text-primary)',
-                    letterSpacing: '0.01em',
-                  }}
-                >
-                  {acc.code}
+              <div key={acc.code} className="accreditation-badge-card">
+                <div className="accreditation-code-row">
+                  <span className="accreditation-code">{acc.code}</span>
+                  <CheckCircleIcon size={14} style={{ color: 'var(--color-brand-accent)' }} />
                 </div>
-                <div
-                  style={{
-                    fontSize: 'var(--font-size-xs)',
-                    color: 'var(--color-text-secondary)',
-                    fontWeight: 500,
-                  }}
-                >
-                  {acc.name}
-                </div>
+                <div className="accreditation-name">{acc.name}</div>
+                <div className="accreditation-cat">{acc.category}</div>
               </div>
             ))}
           </div>
