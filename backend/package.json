@@ -6,13 +6,18 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "prisma:generate": "prisma generate",
+    "prisma:validate": "prisma validate"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "helmet": "^8.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "prisma": "^6.19.3"
+  }
 }

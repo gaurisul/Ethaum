@@ -1,8 +1,19 @@
-import test from 'node:test';
+import test, { beforeEach, after } from 'node:test';
 import assert from 'node:assert/strict';
 import app from '../src/app.js';
-import intakeRepository from '../src/repositories/intake.repository.js';
+import intakeRepository, { createMockPrismaClient } from '../src/repositories/intake.repository.js';
 import intakeService from '../src/services/intake.service.js';
+
+let mockClient;
+
+beforeEach(() => {
+  mockClient = createMockPrismaClient();
+  intakeRepository.setClient(mockClient);
+});
+
+after(() => {
+  intakeRepository.resetClient();
+});
 
 test('intakeService validates required fields', async () => {
   await assert.rejects(
@@ -56,6 +67,7 @@ test('intakeService trims and sanitizes strings and stores in repository', async
 
   const stored = await intakeRepository.findById(result.id);
   assert.equal(stored.id, result.id);
+  assert.equal(stored.procedure, result.procedure);
 });
 
 test('POST /api/intake-preview returns 201 with created id', async () => {
