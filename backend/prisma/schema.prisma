@@ -1,12 +1,22 @@
-// Placeholder schema for EthAum v2.
-// Add models only after agreeing on the data model.
-// Review migrations carefully; never reset a database containing data.
+// Prisma schema for EthAum v2.
+// Read docs/DATABASE.md and AGENTS.md before making changes.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model IntakePreview {
+  id        String   @id @default(uuid())
+  procedure String   @db.VarChar(120)
+  country   String   @db.VarChar(80)
+  timeline  String   @db.VarChar(80)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("intake_previews")
 }
